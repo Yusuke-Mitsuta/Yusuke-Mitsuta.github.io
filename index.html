@@ -10,18 +10,63 @@
    }
   </script>
   <title>Hello PWA.</title>
-  <style>
-    body {
-      text-align:center;
-      font-size: 40px;
-      vertical-align: middle;
-    }
-    .image {
-      width: 80%; 
-      margin: auto;
-      display: block;
-    }
-  </style>
+      <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 10px 0;
+        }
+        /* プルダウン2の初期状態を非表示に設定 */
+        #dropdown2-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Conditional Dropdowns</h1>
+
+    <div class="container">
+        <!-- プルダウン1 -->
+        <label for="dropdown1">プルダウン1:</label>
+        <select id="dropdown1">
+            <option value="">空白</option>
+            <option value="package">パッケージ</option>
+        </select>
+    </div>
+
+    <div class="container" id="dropdown2-container">
+        <!-- プルダウン2 (初期状態は非表示) -->
+        <label for="dropdown2">プルダウン2:</label>
+        <select id="dropdown2">
+            <option value="30min">30分</option>
+            <option value="10min">10分</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <!-- プルダウン3 -->
+        <label for="dropdown3">プルダウン3:</label>
+        <select id="dropdown3">
+            <option value="time">時間</option>
+            <option value="request">要望</option>
+        </select>
+    </div>
+
+    <script>
+        // プルダウン1の選択に応じてプルダウン2を表示・非表示にする
+        document.getElementById('dropdown1').addEventListener('change', function() {
+            var dropdown2Container = document.getElementById('dropdown2-container');
+            if (this.value === 'package') {
+                // プルダウン1で「パッケージ」が選ばれた場合、プルダウン2を表示
+                dropdown2Container.style.display = 'block';
+            } else {
+                // それ以外の場合はプルダウン2を非表示
+                dropdown2Container.style.display = 'none';
+            }
+        });
+    </script>
 </head>
 <body>
   <h1>Hello PWA.</h1>
