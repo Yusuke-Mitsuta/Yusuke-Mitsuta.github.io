@@ -1,15 +1,20 @@
-<!-- index.html -->
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <!-- manifest.jsonを呼び出しています -->
-  <link rel="manifest" href="./manifest.json">
-  <script>
-    // service workerが有効なら、service-worker.js を登録します
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js').then(function() { console.log('Service Worker Registered'); });
-   }
-  </script>
-      <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditional Dropdowns and API Call</title>
+    <!-- manifest.jsonを呼び出しています -->
+    <link rel="manifest" href="./manifest.json">
+    <script>
+        // service workerが有効なら、service-worker.js を登録します
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js').then(function() {
+                console.log('Service Worker Registered');
+            });
+        }
+    </script>
+    <style>
         body {
             font-family: Arial, sans-serif;
         }
@@ -53,6 +58,13 @@
         </select>
     </div>
 
+    <h1>API Call on Button Click</h1>
+
+    <!-- API呼び出しボタン -->
+    <button id="apiButton">APIを呼び出す</button>
+
+    <p id="apiResponse">APIのレスポンスがここに表示されます</p>
+
     <script>
         // プルダウン1の選択に応じてプルダウン2を表示・非表示にする
         document.getElementById('dropdown1').addEventListener('change', function() {
@@ -66,6 +78,23 @@
             }
         });
 
+        // APIボタンがクリックされたときの動作
+        document.getElementById('apiButton').addEventListener('click', function() {
+            // API呼び出し (GETリクエスト)
+            fetch('https://jsonplaceholder.typicode.com/posts/1')  // ダミーのAPIエンドポイント
+                .then(response => response.json())  // レスポンスをJSON形式に変換
+                .then(data => {
+                    // APIのレスポンスデータをページに表示
+                    document.getElementById('apiResponse').innerText = 
+                        "タイトル: " + data.title + "\n本文: " + data.body;
+                })
+                .catch(error => {
+                    // エラーハンドリング
+                    console.error('API呼び出し中にエラーが発生しました:', error);
+                    document.getElementById('apiResponse').innerText = 'API呼び出し中にエラーが発生しました';
+                });
+        });
     </script>
-</head>
+
+</body>
 </html>
