@@ -1,62 +1,11 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conditional Dropdowns and API Call</title>
-    <!-- manifest.jsonを呼び出しています -->
-    <link rel="manifest" href="./manifest.json">
-    <script>
-        // service workerが有効なら、service-worker.js を登録します
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js').then(function() {
-                console.log('Service Worker Registered');
-            });
-        }
-    </script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            margin: 10px 0;
-        }
-        /* プルダウン2の初期状態を非表示に設定 */
-        #dropdown2-container {
-            display: none;
-        }
-    </style>
+    <title>API Call Example</title>
 </head>
 <body>
-
-    <h1>Conditional Dropdowns</h1>
-
-    <div class="container">
-        <!-- プルダウン1 -->
-        <label for="dropdown1">プルダウン1:</label>
-        <select id="dropdown1">
-            <option value="">空白</option>
-            <option value="package">パッケージ</option>
-        </select>
-    </div>
-
-    <div class="container" id="dropdown2-container">
-        <!-- プルダウン2 (初期状態は非表示) -->
-        <label for="dropdown2">プルダウン2:</label>
-        <select id="dropdown2">
-            <option value="30min">30分</option>
-            <option value="10min">10分</option>
-        </select>
-    </div>
-
-    <div class="container">
-        <!-- プルダウン3 -->
-        <label for="dropdown3">プルダウン3:</label>
-        <select id="dropdown3">
-            <option value="time">時間</option>
-            <option value="request">要望</option>
-        </select>
-    </div>
 
     <h1>API Call on Button Click</h1>
 
@@ -66,18 +15,6 @@
     <p id="apiResponse">APIのレスポンスがここに表示されます</p>
 
     <script>
-        // プルダウン1の選択に応じてプルダウン2を表示・非表示にする
-        document.getElementById('dropdown1').addEventListener('change', function() {
-            var dropdown2Container = document.getElementById('dropdown2-container');
-            if (this.value === 'package') {
-                // プルダウン1で「パッケージ」が選ばれた場合、プルダウン2を表示
-                dropdown2Container.style.display = 'block';
-            } else {
-                // それ以外の場合はプルダウン2を非表示
-                dropdown2Container.style.display = 'none';
-            }
-        });
-
         // APIボタンがクリックされたときの動作
         document.getElementById('apiButton').addEventListener('click', function() {
             // API呼び出し (GETリクエスト)
