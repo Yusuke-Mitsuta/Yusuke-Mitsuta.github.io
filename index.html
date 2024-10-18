@@ -7,29 +7,45 @@
 </head>
 <body>
 
-    <h1>API Call on Button Click</h1>
+    <h1>Google Apps Script API Call Example</h1>
 
-    <!-- API呼び出しボタン -->
-    <button id="apiButton">APIを呼び出す</button>
+    <!-- フォームを使用してユーザー入力を取得 -->
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button id="submitButton">送信</button>
 
     <p id="apiResponse">APIのレスポンスがここに表示されます</p>
 
     <script>
-        // APIボタンがクリックされたときの動作
-        document.getElementById('apiButton').addEventListener('click', function() {
-            // API呼び出し (GETリクエスト)
-            fetch('https://jsonplaceholder.typicode.com/posts/1')  // ダミーのAPIエンドポイント
-                .then(response => response.json())  // レスポンスをJSON形式に変換
-                .then(data => {
-                    // APIのレスポンスデータをページに表示
-                    document.getElementById('apiResponse').innerText = 
-                        "タイトル: " + data.title + "\n本文: " + data.body;
+        document.getElementById('submitButton').addEventListener('click', function() {
+            // 入力値を取得
+            var name = document.getElementById('nameInput').value;
+
+            // API呼び出し (POSTリクエスト)
+            fetch('https://script.google.com/macros/s/AKfycbxUpKqLQhsYz9NaJFjmCL4vz20VzoxOW0TraON4_UhleEKrXOjWhhvFp_qojoWFopyr/exec', {
+                method: 'POST',  // POSTリクエスト
+                headers: {
+                    'Content-Type': 'application/json',  // JSON形式で送信
+                },
+                body: JSON.stringify({
+                    name: name  // フォームから入力した名前を送信
                 })
-                .catch(error => {
-                    // エラーハンドリング
-                    console.error('API呼び出し中にエラーが発生しました:', error);
-                    document.getElementById('apiResponse').innerText = 'API呼び出し中にエラーが発生しました';
-                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('サーバーがエラー応答を返しました: ' + response.status);
+                }
+                return response.json();  // レスポンスをJSON形式に変換
+            })
+            .then(data => {
+                // APIのレスポンスデータをページに表示
+                document.getElementById('apiResponse').innerText = 
+                    "ステータス: " + data.status + "\nメッセージ: " + data.message;
+            })
+            .catch(error => {
+                // エラーハンドリング
+                console.error('API呼び出し中にエラーが発生しました:', error);
+                document.getElementById('apiResponse').innerText = 'API呼び出し中にエラーが発生しました: ' + error.message;
+            });
         });
     </script>
 
